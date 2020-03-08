@@ -11,11 +11,12 @@ import android.widget.EditText;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+
 //Test Classes for now will be added into a different file once working as intended.
  class Pad_Thai{
      public
      String name = "Pad Thai";
-     boolean gluten = true;
+     boolean gluten = false;
      boolean shellfish = true;
 
         }
@@ -32,34 +33,19 @@ class Beef_Broc{
     boolean shellfish = true;
 }
 
-//Testing Function to test if an object of a class has that allergen
-//public class hasGluten {
- //    public boolean yes(boolean []arr) {
-  //       for (int i = 0; i < arr.length; i++) {
-
-
- //            if (arr[i] == true) {
-
- //            }
-
- //        }
- //        return true;
-  //   }
-
-//}
-
 public class MainActivity extends AppCompatActivity {
 
 
     private static final String TAG = "MainActivity";
     private ArrayAdapter adapter;
     private ArrayAdapter adapter2;
+    private ArrayAdapter tempadapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ListView list = (ListView) findViewById(R.id.theList);
+        final ListView list = (ListView) findViewById(R.id.theList);
         EditText theFilter = (EditText) findViewById(R.id.searchFilter);
         Log.d(TAG, "onCreate: Started.");
 
@@ -69,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         Fried_Rice obj3= new Fried_Rice();
 
         //array of an object of classes
-        ArrayList<String> food = new ArrayList<>();
+        final ArrayList<String> food = new ArrayList<>();
         //testing array
         ArrayList<String> names = new ArrayList<>();
 
@@ -99,23 +85,29 @@ public class MainActivity extends AppCompatActivity {
            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                (MainActivity.this).adapter.getFilter().filter(charSequence);
 
-              // int textlength = charSequence.length();
-              // ArrayList<food> tempArrayList = new ArrayList<food>();
-              // for (food c : tempArrayList) {
-             //      if (c.hasGluten() == false) {
+
+               if (charSequence == "gluten") {
+
+                   ArrayList<String> tempArrayList = new ArrayList<String>();
+                   for (int t  = 0; t < tempArrayList.size() ; t++) {
+                       if (food[t].gluten == false) {
+                           tempArrayList.add(food[t]);
+                       }
+                   }
+
+                   tempadapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tempArrayList);
+                   list.setAdapter(tempadapter);
+               }
+
+              // ArrayList<String> tempArrayList = new ArrayList<String>();
+              // for (int t  = 0; t < tempArrayList.size() ; t++) {
+               //   if ([t].gluten() == false) {
               //         tempArrayList.add(c);
                //    }
-              // }
+               //}
                //mAdapter = new food(activity, tempArrayList);
                //lv.setAdapter(madapter);
 
-
-               String gluten = "gluten";
-
-               if (charSequence == gluten)
-               {
-                   (MainActivity.this).adapter2.getFilter().filter(charSequence);
-               }
            }
 
            @Override
