@@ -7,17 +7,30 @@
     tools:context=".MainActivity">
 
     <EditText
+        android:id="@+id/searchFilter"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/searchFilter"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:id="@+id/theList"
-        android:layout_width="407dp"
-        android:layout_height="655dp"
+        android:id="@+id/KitchenList"
+        android:layout_width="190dp"
+        android:layout_height="563dp"
         android:layout_below="@+id/searchFilter"
-        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchFilter" />
+        app:layout_constraintTop_toBottomOf="@+id/searchFilter"
+        app:layout_constraintVertical_bias="0.635" />
+
+    <ListView
+        android:id="@+id/SushiList"
+        android:layout_width="190dp"
+        android:layout_height="563dp"
+        android:layout_below="@+id/searchFilter"
+        android:layout_marginEnd="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/KitchenList"
+        app:layout_constraintTop_toBottomOf="@+id/searchFilter"
+        app:layout_constraintVertical_bias="0.635" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

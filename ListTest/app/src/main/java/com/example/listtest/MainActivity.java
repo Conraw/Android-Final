@@ -6,7 +6,7 @@ import android.util.Log;
 import android.text.Editable;
 import android.text.TextWatcher;
 import java.util.ArrayList;
-import java.util.*;
+
 import android.widget.EditText;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -32,48 +32,70 @@ class Beef_Broc{
     boolean gluten = true;
     boolean shellfish = true;
 }
+class Mega_Roll {
+    public
+    String name = "Mega Roll";
+    boolean gluten = false;
+    boolean shellfish = true;
+}
+class Mango_Tango {
+     public
+     String name = "Mango Tango";
+     boolean gluten = true;
+     boolean shellfish = true;
+}
+class Crossroads {
+     public
+     String name = "Crossroads Roll";
+     boolean gluten = true;
+     boolean shellfish = true;
+}
 
 public class MainActivity extends AppCompatActivity {
 
 
     private static final String TAG = "MainActivity";
-    private ArrayAdapter adapter;
-    private ArrayAdapter adapter2;
+    private ArrayAdapter KitchenAdapter;
+    private ArrayAdapter SushiAdapter;
     private ArrayAdapter tempadapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final ListView list = (ListView) findViewById(R.id.theList);
+        final ListView list = (ListView) findViewById(R.id.KitchenList);
+        final ListView list2 = (ListView) findViewById(R.id.SushiList);
         EditText theFilter = (EditText) findViewById(R.id.searchFilter);
         Log.d(TAG, "onCreate: Started.");
 
         //Creating Objects of the Specified classes
-        Pad_Thai obj = new Pad_Thai();
-        Beef_Broc obj2= new Beef_Broc();
-        Fried_Rice obj3= new Fried_Rice();
+        Pad_Thai kitchen1 = new Pad_Thai();
+        Beef_Broc kitchen2 = new Beef_Broc();
+        Fried_Rice kitchen3 = new Fried_Rice();
+
+        Mega_Roll sushi1 = new Mega_Roll();
+        Mango_Tango sushi2 = new Mango_Tango();
+        Crossroads sushi3 = new Crossroads();
 
         //array of an object of classes
-        final ArrayList<String> food = new ArrayList<>();
-        //testing array
-        ArrayList<String> names = new ArrayList<>();
+        final ArrayList<String> KitchenFood = new ArrayList<>();
+        final ArrayList<String> SushiFood = new ArrayList<>();
 
-        food.add(obj.name);
-        food.add(obj2.name);
-        food.add(obj3.name);
+        KitchenFood.add(kitchen1.name);
+        KitchenFood.add(kitchen2.name);
+        KitchenFood.add(kitchen3.name);
 
-        names.add("Orange Chicken");
-        names.add("Pad Thai");
-        names.add("Fried Rice");
-        names.add("Beef and Broc");
-        names.add("Special Tempora");
+        SushiFood.add(sushi1.name);
+        SushiFood.add(sushi2.name);
+        SushiFood.add(sushi3.name);
 
 
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, food);
-        adapter2 =  new ArrayAdapter(this, android.R.layout.simple_list_item_1, names);
+        KitchenAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, KitchenFood);
+        SushiAdapter =  new ArrayAdapter(this, android.R.layout.simple_list_item_1, SushiFood);
 
-        list.setAdapter(adapter);
+
+        list.setAdapter(KitchenAdapter);
+        list2.setAdapter(SushiAdapter);
 
        theFilter.addTextChangedListener(new TextWatcher() {
            @Override
@@ -83,21 +105,25 @@ public class MainActivity extends AppCompatActivity {
 
            @Override
            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-               (MainActivity.this).adapter.getFilter().filter(charSequence);
+               (MainActivity.this).KitchenAdapter.getFilter().filter(charSequence);
+               (MainActivity.this).SushiAdapter.getFilter().filter(charSequence);
 
 
-               if (charSequence == "gluten") {
+               //if (charSequence == "gluten") {
 
-                   ArrayList<String> tempArrayList = new ArrayList<String>();
-                   for (int t  = 0; t < tempArrayList.size() ; t++) {
-                       if (food[t].gluten == false) {
-                           tempArrayList.add(food[t]);
-                       }
-                   }
+                   //ArrayList<String> tempArrayList = new ArrayList<String>();
+                   //for (int t  = 0; t < tempArrayList.size() ; t++) {
 
-                   tempadapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tempArrayList);
-                   list.setAdapter(tempadapter);
-               }
+                   //    String abc = KitchenFood.get(t);
+
+                    //   if (KitchenFood[t].gluten == false) {
+                   //        tempArrayList.add(KitchenFood.get(t));
+                   //    }
+                   //}
+
+                  // tempadapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tempArrayList);
+                  // list.setAdapter(tempadapter);
+               //}
 
               // ArrayList<String> tempArrayList = new ArrayList<String>();
               // for (int t  = 0; t < tempArrayList.size() ; t++) {
