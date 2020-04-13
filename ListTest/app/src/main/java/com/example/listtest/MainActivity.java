@@ -15,6 +15,36 @@ import android.widget.ListView;
 //Test Classes for now will be added into a different file once working as intended.
 
 //Kitchen Food
+class Food {
+    public String name;
+    public boolean gluten;
+    public boolean shellfish;
+    public Food(String name, boolean gluten, boolean shellfish) {
+        super();
+        this.name = name;
+        this.gluten = gluten;
+        this.shellfish = shellfish;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public boolean getGluten() {
+        return gluten;
+    }
+    public void setGluten(boolean gluten) {
+        this.gluten = gluten;
+    }
+    public boolean getShellfish() {
+        return shellfish;
+    }
+    public void setShellfish(boolean shellfish) {
+        this.shellfish = shellfish;
+    }
+}
+
 class Akaushi {
     public
     String name = "Akaushi Beef";
@@ -171,6 +201,8 @@ class Yin_Yang {
 
 public class MainActivity extends AppCompatActivity {
 
+    private ArrayList<Food> mFoodArrayList = new ArrayList<Food>();
+
 
     private static final String TAG = "MainActivity";
     private ArrayAdapter KitchenAdapter;
@@ -182,7 +214,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final ListView list = findViewById(R.id.KitchenList);
-        final ListView list2 = findViewById(R.id.SushiList);
+        //final ListView list2 = findViewById(R.id.SushiList);
+
         EditText theFilter = findViewById(R.id.searchFilter);
         Log.d(TAG, "onCreate: Started.");
 
@@ -215,9 +248,23 @@ public class MainActivity extends AppCompatActivity {
         Yin_Yang sushi19 = new Yin_Yang();
 
 
+
+        mFoodArrayList.add(new Food("a", false, false));
+        mFoodArrayList.add(new Food("b", false, false));
+        mFoodArrayList.add(new Food("c", false, false));
+        mFoodArrayList.add(new Food("d", false, false));
+        mFoodArrayList.add(new Food("e", false, false));
+        mFoodArrayList.add(new Food("f", false, false));
+        mFoodArrayList.add(new Food("g", false, false));
+        mFoodArrayList.add(new Food("h", false, false));
+        mFoodArrayList.add(new Food("i", false, false));
+
+
+
+
         //array of an object of classes
         final ArrayList<String> KitchenFood = new ArrayList<>();
-        final ArrayList<String> SushiFood = new ArrayList<>();
+        //final ArrayList<String> SushiFood = new ArrayList<>();
 
         KitchenFood.add(kitchen1.name);
         KitchenFood.add(kitchen2.name);
@@ -226,32 +273,33 @@ public class MainActivity extends AppCompatActivity {
         KitchenFood.add(kitchen5.name);
         KitchenFood.add(kitchen6.name);
 
-        SushiFood.add(sushi1.name);
-        SushiFood.add(sushi2.name);
-        SushiFood.add(sushi3.name);
-        SushiFood.add(sushi4.name);
-        SushiFood.add(sushi5.name);
-        SushiFood.add(sushi6.name);
-        SushiFood.add(sushi7.name);
-        SushiFood.add(sushi8.name);
-        SushiFood.add(sushi9.name);
-        SushiFood.add(sushi10.name);
-        SushiFood.add(sushi11.name);
-        SushiFood.add(sushi12.name);
-        SushiFood.add(sushi13.name);
-        SushiFood.add(sushi14.name);
-        SushiFood.add(sushi15.name);
-        SushiFood.add(sushi16.name);
-        SushiFood.add(sushi17.name);
-        SushiFood.add(sushi18.name);
-        SushiFood.add(sushi19.name);
 
-        KitchenAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, KitchenFood);
-        SushiAdapter =  new ArrayAdapter(this, android.R.layout.simple_list_item_1, SushiFood);
+        KitchenFood.add(sushi1.name);
+        KitchenFood.add(sushi2.name);
+        KitchenFood.add(sushi3.name);
+        KitchenFood.add(sushi4.name);
+        KitchenFood.add(sushi5.name);
+        KitchenFood.add(sushi6.name);
+        KitchenFood.add(sushi7.name);
+        KitchenFood.add(sushi8.name);
+        KitchenFood.add(sushi9.name);
+        KitchenFood.add(sushi10.name);
+        KitchenFood.add(sushi11.name);
+        KitchenFood.add(sushi12.name);
+        KitchenFood.add(sushi13.name);
+        KitchenFood.add(sushi14.name);
+        KitchenFood.add(sushi15.name);
+        KitchenFood.add(sushi16.name);
+        KitchenFood.add(sushi17.name);
+        KitchenFood.add(sushi18.name);
+        KitchenFood.add(sushi19.name);
 
+
+
+        KitchenAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mFoodArrayList);
 
         list.setAdapter(KitchenAdapter);
-        list2.setAdapter(SushiAdapter);
+
 
        theFilter.addTextChangedListener(new TextWatcher() {
            @Override
@@ -261,34 +309,37 @@ public class MainActivity extends AppCompatActivity {
 
            @Override
            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-               (MainActivity.this).KitchenAdapter.getFilter().filter(charSequence);
-               (MainActivity.this).SushiAdapter.getFilter().filter(charSequence);
+               //(MainActivity.this).KitchenAdapter.getFilter().filter(charSequence);
+               KitchenAdapter.getFilter().filter(charSequence.toString());
+               //(MainActivity.this).SushiAdapter.getFilter().filter(charSequence);
 
-               //if (charSequence == "gluten") {
+              // if (charSequence == "gluten") {
 
-                   //ArrayList<String> tempArrayList = new ArrayList<String>();
-                   //for (int t  = 0; t < tempArrayList.size() ; t++) {
+                   //ArrayList<String> tempArrayList = new ArrayList<>();
+                  // for (int t = 0; t < tempArrayList.size(); t++) {
 
-                   //    String abc = KitchenFood.get(t);
+                       //KitchenFood abc = KitchenFood.get(t);
 
-                    //   if (KitchenFood[t].gluten == false) {
-                   //        tempArrayList.add(KitchenFood.get(t));
-                   //    }
+
+                      // if (abc.shellfish == false) {
+                       //    tempArrayList.add(KitchenFood.get(t));
+                      // }
+                  // }
+
+                   // tempadapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tempArrayList);
+                   // list.setAdapter(tempadapter);
                    //}
 
-                  // tempadapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tempArrayList);
-                  // list.setAdapter(tempadapter);
-               //}
+                   // ArrayList<String> tempArrayList = new ArrayList<String>();
+                   // for (int t  = 0; t < tempArrayList.size() ; t++) {
+                   //   if ([t].gluten() == false) {
+                   //         tempArrayList.add(c);
+                   //    }
+                   //}
+                   //mAdapter = new food(activity, tempArrayList);
+                   //lv.setAdapter(madapter);
 
-              // ArrayList<String> tempArrayList = new ArrayList<String>();
-              // for (int t  = 0; t < tempArrayList.size() ; t++) {
-               //   if ([t].gluten() == false) {
-              //         tempArrayList.add(c);
-               //    }
-               //}
-               //mAdapter = new food(activity, tempArrayList);
-               //lv.setAdapter(madapter);
-
+             //  }
            }
 
            @Override
