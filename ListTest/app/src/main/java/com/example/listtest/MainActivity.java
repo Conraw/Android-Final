@@ -19,11 +19,14 @@ import java.util.List;
 import android.widget.EditText;
 import android.widget.ListView;
 
-//Test Classes for now will be added into a different file once working as intended.
+//Base Class with getters and setters and initialized with each food added
 class Food {
     public String name;
     public boolean gluten;
     public boolean shellfish;
+    public boolean peanut;
+    public boolean egg;
+
     public Food(String name, boolean gluten, boolean shellfish) {
         super();
         this.name = name;
@@ -36,14 +39,16 @@ class Food {
     public void setName(String name) {
         this.name = name;
     }
+
     public boolean getGluten() {
         return gluten;
     }
-    public void setGluten(boolean gluten) {
-        this.gluten = gluten;
-    }
     public boolean getShellfish() {
         return shellfish;
+    }
+
+    public void setGluten(boolean gluten) {
+        this.gluten = gluten;
     }
     public void setShellfish(boolean shellfish) {
         this.shellfish = shellfish;
@@ -78,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final ListView list = findViewById(R.id.KitchenList);
-
         EditText theFilter = findViewById(R.id.searchFilter);
         Log.d(TAG, "onCreate: Started.");
 
@@ -108,33 +112,45 @@ public class MainActivity extends AppCompatActivity {
         mFoodArrayList.add(new Food("Vegetable Roll", true, false));
         mFoodArrayList.add(new Food("Yin and Yang Roll", true, true));
 
-
-        //final ArrayList<String> KitchenFood = new ArrayList<>();
         ArrayList<String> tempList = new ArrayList<String>();
 
+        //Make the ListView show the names of the food items as oppose to memory locations
         for (int i = 0; i <mFoodArrayList.size(); i++)
         {
             String KitchenFood = mFoodArrayList.get(i).name;
             tempList.add(KitchenFood);
         }
         KitchenAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tempList);
-
         list.setAdapter(KitchenAdapter);
 
        theFilter.addTextChangedListener(new TextWatcher() {
            @Override
-           public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+           public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
 
            }
 
            @Override
-           public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-               //(MainActivity.this).KitchenAdapter.getFilter().filter(charSequence);
+           public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                KitchenAdapter.getFilter().filter(charSequence.toString());
 
+               if (count == 0)
+               {
+                   ArrayList<String> tempList = new ArrayList<String>();
+                   for (int i = 0; i <mFoodArrayList.size(); i++)
+                   {
+                       String KitchenFood = mFoodArrayList.get(i).name;
+                       tempList.add(KitchenFood);
+                   }
+                   KitchenAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, tempList);
+                   list.setAdapter(KitchenAdapter);
+               }
+
                ArrayList<String> glutenList = new ArrayList<String>();
-              if (charSequence == "gluten")
-              {
+               ArrayList<String> shellfishList = new ArrayList<String>();
+
+
+               if (charSequence.toString().equals("gluten"))
+               {
                   for (int j = 0; j < mFoodArrayList.size(); j ++)
                   {
                       boolean glutenStatus = mFoodArrayList.get(j).gluten;
@@ -145,10 +161,25 @@ public class MainActivity extends AppCompatActivity {
                           glutenList.add(KitchenFood);
                       }
                   }
-                  //TempAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, glutenList);
+                  TempAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, glutenList);
+                  list.setAdapter(TempAdapter);
+               }
+               if (charSequence.toString().equals("shellfish"))
+               {
+                   for (int j = 0; j < mFoodArrayList.size(); j ++)
+                   {
+                       boolean shellfishStatus = mFoodArrayList.get(j).shellfish;
+                       String KitchenFood = mFoodArrayList.get(j).name;
 
-                  //list.setAdapter(TempAdapter);
-              }
+                       if (!shellfishStatus)
+                       {
+                           shellfishList.add(KitchenFood);
+                       }
+                   }
+                   TempAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, shellfishList);
+
+                   list.setAdapter(TempAdapter);
+               }
            }
 
            @Override
