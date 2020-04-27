@@ -1,5 +1,6 @@
 package com.example.listtest;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.versionedparcelable.NonParcelField;
 import android.annotation.SuppressLint;
@@ -18,14 +19,13 @@ import android.widget.TextView;
 import java.util.List;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.content.DialogInterface;
 
 //Base Class with getters and setters and initialized with each food added
 class Food {
     public String name;
     public boolean gluten;
     public boolean shellfish;
-    public boolean peanut;
-    public boolean egg;
 
     public Food(String name, boolean gluten, boolean shellfish) {
         super();
@@ -86,6 +86,22 @@ public class MainActivity extends AppCompatActivity {
         EditText theFilter = findViewById(R.id.searchFilter);
         Log.d(TAG, "onCreate: Started.");
 
+
+        //Initial Pop-up message, explaining search bar functionality
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(false);
+        builder.setMessage("You can use the search bar to type in an allergy such as" +
+                           " 'gluten' or 'shellfish' to show menu items you CAN eat.");
+
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
+        //Adding each food item into the ListView ArrayList
         mFoodArrayList.add(new Food("Akaushi Beef", true, false));
         mFoodArrayList.add(new Food("Beef & Broccoli", false, false));
         mFoodArrayList.add(new Food("Fried Rice", false, false));
@@ -117,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         //Make the ListView show the names of the food items as oppose to memory locations
         for (int i = 0; i <mFoodArrayList.size(); i++)
         {
-            String KitchenFood = mFoodArrayList.get(i).name;
+            String KitchenFood = mFoodArrayList.get(i).getName();
             tempList.add(KitchenFood);
         }
         KitchenAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, tempList);
@@ -133,12 +149,13 @@ public class MainActivity extends AppCompatActivity {
            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                KitchenAdapter.getFilter().filter(charSequence.toString());
 
+               //Repopulates the list of allergens after filtering out
                if (count == 0)
                {
                    ArrayList<String> tempList = new ArrayList<String>();
                    for (int i = 0; i <mFoodArrayList.size(); i++)
                    {
-                       String KitchenFood = mFoodArrayList.get(i).name;
+                       String KitchenFood = mFoodArrayList.get(i).getName();
                        tempList.add(KitchenFood);
                    }
                    KitchenAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, tempList);
@@ -148,18 +165,15 @@ public class MainActivity extends AppCompatActivity {
                ArrayList<String> glutenList = new ArrayList<String>();
                ArrayList<String> shellfishList = new ArrayList<String>();
 
-
                if (charSequence.toString().equals("gluten"))
                {
                   for (int j = 0; j < mFoodArrayList.size(); j ++)
                   {
-                      boolean glutenStatus = mFoodArrayList.get(j).gluten;
-                      String KitchenFood = mFoodArrayList.get(j).name;
+                      boolean glutenStatus = mFoodArrayList.get(j).getGluten();
+                      String KitchenFood = mFoodArrayList.get(j).getName();
 
                       if (!glutenStatus)
-                      {
                           glutenList.add(KitchenFood);
-                      }
                   }
                   TempAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, glutenList);
                   list.setAdapter(TempAdapter);
@@ -168,16 +182,13 @@ public class MainActivity extends AppCompatActivity {
                {
                    for (int j = 0; j < mFoodArrayList.size(); j ++)
                    {
-                       boolean shellfishStatus = mFoodArrayList.get(j).shellfish;
-                       String KitchenFood = mFoodArrayList.get(j).name;
+                       boolean shellfishStatus = mFoodArrayList.get(j).getShellfish();
+                       String KitchenFood = mFoodArrayList.get(j).getName();
 
                        if (!shellfishStatus)
-                       {
                            shellfishList.add(KitchenFood);
-                       }
                    }
                    TempAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, shellfishList);
-
                    list.setAdapter(TempAdapter);
                }
            }
